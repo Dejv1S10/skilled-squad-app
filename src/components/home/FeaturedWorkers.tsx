@@ -133,9 +133,17 @@ export function FeaturedWorkers() {
               <CardContent className="p-6">
                 <div className="mb-4 flex items-start gap-4">
                   <div className="relative">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
-                      {worker.profile?.full_name?.charAt(0) || '?'}
-                    </div>
+                    {worker.profile?.avatar_url ? (
+                      <img 
+                        src={worker.profile.avatar_url} 
+                        alt={worker.profile.full_name || 'Avatar'} 
+                        className="h-16 w-16 rounded-full object-cover bg-muted"
+                      />
+                    ) : (
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
+                        {worker.profile?.full_name?.charAt(0) || '?'}
+                      </div>
+                    )}
                     {worker.is_available && (
                       <CircleCheck className="absolute -bottom-1 -right-1 h-5 w-5 text-green-500" />
                     )}

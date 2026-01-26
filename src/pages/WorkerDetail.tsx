@@ -236,9 +236,17 @@ export default function WorkerDetail() {
               <CardContent className="p-6">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
                   <div className="relative">
-                    <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary/10 text-3xl font-bold text-primary">
-                      {worker.profile?.full_name?.charAt(0) || '?'}
-                    </div>
+                    {worker.profile?.avatar_url ? (
+                      <img 
+                        src={worker.profile.avatar_url} 
+                        alt={worker.profile.full_name || 'Avatar'} 
+                        className="h-24 w-24 rounded-full object-cover bg-muted"
+                      />
+                    ) : (
+                      <div className="flex h-24 w-24 items-center justify-center rounded-full bg-primary/10 text-3xl font-bold text-primary">
+                        {worker.profile?.full_name?.charAt(0) || '?'}
+                      </div>
+                    )}
                     {worker.is_available && (
                       <CircleCheck className="absolute -bottom-1 -right-1 h-6 w-6 text-green-500" />
                     )}

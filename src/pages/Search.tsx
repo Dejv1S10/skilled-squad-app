@@ -23,6 +23,10 @@ interface Worker {
     full_name: string;
     avatar_url: string | null;
   } | null;
+  services?: {
+    name: string;
+    description: string | null;
+  }[];
 }
 
 const categoryLabels: Record<string, string> = {
@@ -80,27 +84,44 @@ export default function SearchPage() {
 
       if (data && data.length > 0) {
         const userIds = data.map(w => w.user_id);
-        const { data: profiles } = await supabase
-          .from('profiles')
-          .select('user_id, full_name, avatar_url')
-          .in('user_id', userIds);
+        const workerIds = data.map(w => w.id);
+        
+        // Fetch profiles and services in parallel
+        const [profilesResult, servicesResult] = await Promise.all([
+          supabase
+            .from('profiles')
+            .select('user_id, full_name, avatar_url')
+            .in('user_id', userIds),
+          supabase
+            .from('services')
+            .select('worker_id, name, description')
+            .in('worker_id', workerIds)
+        ]);
 
-        let workersWithProfiles = data.map(worker => ({
+        const profiles = profilesResult.data;
+        const services = servicesResult.data;
+
+        let workersWithData = data.map(worker => ({
           ...worker,
           profile: profiles?.find(p => p.user_id === worker.user_id) || null,
+          services: services?.filter(s => s.worker_id === worker.id) || [],
         }));
 
-        // Filter by search query
+        // Filter by search query - now includes service names
         const q = searchParams.get('q')?.toLowerCase();
         if (q) {
-          workersWithProfiles = workersWithProfiles.filter(worker =>
+          workersWithData = workersWithData.filter(worker =>
             worker.profile?.full_name?.toLowerCase().includes(q) ||
             worker.bio?.toLowerCase().includes(q) ||
-            worker.categories?.some(cat => categoryLabels[cat]?.toLowerCase().includes(q))
+            worker.categories?.some(cat => categoryLabels[cat]?.toLowerCase().includes(q)) ||
+            worker.services?.some(service => 
+              service.name?.toLowerCase().includes(q) ||
+              service.description?.toLowerCase().includes(q)
+            )
           );
         }
 
-        setWorkers(workersWithProfiles);
+        setWorkers(workersWithData);
       } else {
         setWorkers([]);
       }
@@ -230,9 +251,17 @@ export default function SearchPage() {
                 <CardContent className="p-6">
                   <div className="mb-4 flex items-start gap-4">
                     <div className="relative">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
-                        {worker.profile?.full_name?.charAt(0) || '?'}
-                      </div>
+                      {worker.profile?.avatar_url ? (
+                        <img 
+                          src={worker.profile.avatar_url} 
+                          alt={worker.profile.full_name || 'Avatar'} 
+                          className="h-16 w-16 rounded-full object-cover bg-muted"
+                        />
+                      ) : (
+                        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-2xl font-bold text-primary">
+                          {worker.profile?.full_name?.charAt(0) || '?'}
+                        </div>
+                      )}
                       {worker.is_available && (
                         <CircleCheck className="absolute -bottom-1 -right-1 h-5 w-5 text-green-500" />
                       )}
