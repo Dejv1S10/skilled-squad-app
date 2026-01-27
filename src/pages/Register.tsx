@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Briefcase, User } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { z } from 'zod';
 
 const registerSchema = z.object({
@@ -21,7 +21,7 @@ export default function Register() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isWorker, setIsWorker] = useState(false);
+  
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function Register() {
     }
 
     setLoading(true);
-    const { error } = await signUp(email, password, fullName, isWorker);
+    const { error } = await signUp(email, password, fullName, false);
     setLoading(false);
 
     if (error) {
@@ -105,32 +105,6 @@ export default function Register() {
                   required
                 />
               </div>
-
-              <div className="rounded-lg border p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    {isWorker ? (
-                      <Briefcase className="h-5 w-5 text-primary" />
-                    ) : (
-                      <User className="h-5 w-5 text-muted-foreground" />
-                    )}
-                    <div>
-                      <Label htmlFor="worker-toggle" className="cursor-pointer">
-                        Chci nabízet služby
-                      </Label>
-                      <p className="text-sm text-muted-foreground">
-                        {isWorker ? 'Registrace jako pracovník' : 'Registrace jako zákazník'}
-                      </p>
-                    </div>
-                  </div>
-                  <Switch
-                    id="worker-toggle"
-                    checked={isWorker}
-                    onCheckedChange={setIsWorker}
-                  />
-                </div>
-              </div>
-
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Vytvořit účet
