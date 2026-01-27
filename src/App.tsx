@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Search from "./pages/Search";
 import WorkerDetail from "./pages/WorkerDetail";
-import Dashboard from "./pages/Dashboard";
+import Partner from "./pages/Partner";
 import Orders from "./pages/Orders";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
@@ -29,7 +29,7 @@ const App = () => (
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<Search />} />
             <Route path="/worker/:id" element={<WorkerDetail />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/partner" element={<Partner />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/profile" element={<Profile />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

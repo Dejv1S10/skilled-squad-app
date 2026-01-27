@@ -29,9 +29,9 @@ export function Header() {
             <>
               {isWorker ? (
                 <Button variant="ghost" asChild>
-                  <Link to="/dashboard" className="flex items-center gap-2">
+                  <Link to="/partner" className="flex items-center gap-2">
                     <Briefcase className="h-4 w-4" />
-                    Dashboard
+                    Partner Dashboard
                   </Link>
                 </Button>
               ) : (
