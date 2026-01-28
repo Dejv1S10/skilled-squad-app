@@ -22,10 +22,16 @@ interface Worker {
 }
 
 const categoryLabels: Record<string, string> = {
-  garden: 'Zahrada',
-  handyman: 'Kutilství',
-  cleaning: 'Úklid',
-  moving: 'Stěhování',
+  handyman: 'Dům & byt',
+  cleaning: 'Úklid & domácnost',
+  garden: 'Zahrada & exteriér',
+  moving: 'Stěhování & logistika',
+  craft: 'Specializované řemeslo',
+  tech: 'Technika & IT',
+  care: 'Péče & výpomoc',
+  auto: 'Auto & doprava',
+  events: 'Eventy & lifestyle',
+  b2b: 'Pro firmy',
 };
 
 export function FeaturedWorkers() {

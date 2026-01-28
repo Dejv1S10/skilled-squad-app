@@ -47,10 +47,16 @@ interface WorkerData {
 }
 
 const categoryOptions: { id: ServiceCategory; label: string }[] = [
-  { id: 'garden', label: 'Zahradní práce' },
-  { id: 'handyman', label: 'Kutilství' },
-  { id: 'cleaning', label: 'Úklid' },
-  { id: 'moving', label: 'Stěhování' },
+  { id: 'handyman', label: 'Dům & byt' },
+  { id: 'cleaning', label: 'Úklid & domácnost' },
+  { id: 'garden', label: 'Zahrada & exteriér' },
+  { id: 'moving', label: 'Stěhování & logistika' },
+  { id: 'craft', label: 'Specializované řemeslo' },
+  { id: 'tech', label: 'Technika & IT' },
+  { id: 'care', label: 'Péče & výpomoc' },
+  { id: 'auto', label: 'Auto & doprava' },
+  { id: 'events', label: 'Eventy & lifestyle' },
+  { id: 'b2b', label: 'Pro firmy' },
 ];
 
 const statusLabels: Record<string, { label: string; variant: 'default' | 'secondary' | 'destructive' | 'outline' }> = {
