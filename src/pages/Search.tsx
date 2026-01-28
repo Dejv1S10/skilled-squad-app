@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Star, CircleCheck, Search, SlidersHorizontal } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
 
 interface Worker {
   id: string;
@@ -43,6 +45,7 @@ export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [sortBy, setSortBy] = useState('rating');
   const [categoryFilter, setCategoryFilter] = useState(searchParams.get('category') || 'all');
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -121,6 +124,11 @@ export default function SearchPage() {
           );
         }
 
+        // Filter by price range
+        workersWithData = workersWithData.filter(worker =>
+          worker.hourly_rate >= priceRange[0] && worker.hourly_rate <= priceRange[1]
+        );
+
         setWorkers(workersWithData);
       } else {
         setWorkers([]);
@@ -129,7 +137,7 @@ export default function SearchPage() {
     }
 
     fetchWorkers();
-  }, [searchParams, categoryFilter, sortBy]);
+  }, [searchParams, categoryFilter, sortBy, priceRange]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -203,6 +211,20 @@ export default function SearchPage() {
                 <SelectItem value="price_desc">Cena ↓</SelectItem>
               </SelectContent>
             </Select>
+
+            <div className="flex items-center gap-3 min-w-[200px]">
+              <Label className="text-sm text-muted-foreground whitespace-nowrap">
+                Cena: {priceRange[0]}–{priceRange[1]} Kč/h
+              </Label>
+              <Slider
+                value={priceRange}
+                onValueChange={(value) => setPriceRange(value as [number, number])}
+                min={0}
+                max={1000}
+                step={50}
+                className="w-40"
+              />
+            </div>
           </div>
         </div>
 
