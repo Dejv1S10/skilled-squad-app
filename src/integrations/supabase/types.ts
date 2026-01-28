@@ -262,7 +262,17 @@ export type Database = {
         | "in_progress"
         | "completed"
         | "cancelled"
-      service_category: "garden" | "handyman" | "cleaning" | "moving"
+      service_category:
+        | "garden"
+        | "handyman"
+        | "cleaning"
+        | "moving"
+        | "craft"
+        | "tech"
+        | "care"
+        | "auto"
+        | "events"
+        | "b2b"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -398,7 +408,18 @@ export const Constants = {
         "completed",
         "cancelled",
       ],
-      service_category: ["garden", "handyman", "cleaning", "moving"],
+      service_category: [
+        "garden",
+        "handyman",
+        "cleaning",
+        "moving",
+        "craft",
+        "tech",
+        "care",
+        "auto",
+        "events",
+        "b2b",
+      ],
     },
   },
 } as const

@@ -32,10 +32,16 @@ interface Worker {
 }
 
 const categoryLabels: Record<string, string> = {
-  garden: 'Zahrada',
-  handyman: 'Kutilství',
-  cleaning: 'Úklid',
-  moving: 'Stěhování',
+  handyman: 'Dům & byt',
+  cleaning: 'Úklid & domácnost',
+  garden: 'Zahrada & exteriér',
+  moving: 'Stěhování & logistika',
+  craft: 'Specializované řemeslo',
+  tech: 'Technika & IT',
+  care: 'Péče & výpomoc',
+  auto: 'Auto & doprava',
+  events: 'Eventy & lifestyle',
+  b2b: 'Pro firmy',
 };
 
 export default function SearchPage() {
@@ -194,10 +200,16 @@ export default function SearchPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Všechny kategorie</SelectItem>
-                <SelectItem value="garden">Zahrada</SelectItem>
-                <SelectItem value="handyman">Kutilství</SelectItem>
-                <SelectItem value="cleaning">Úklid</SelectItem>
-                <SelectItem value="moving">Stěhování</SelectItem>
+                <SelectItem value="handyman">Dům & byt</SelectItem>
+                <SelectItem value="cleaning">Úklid & domácnost</SelectItem>
+                <SelectItem value="garden">Zahrada & exteriér</SelectItem>
+                <SelectItem value="moving">Stěhování & logistika</SelectItem>
+                <SelectItem value="craft">Specializované řemeslo</SelectItem>
+                <SelectItem value="tech">Technika & IT</SelectItem>
+                <SelectItem value="care">Péče & výpomoc</SelectItem>
+                <SelectItem value="auto">Auto & doprava</SelectItem>
+                <SelectItem value="events">Eventy & lifestyle</SelectItem>
+                <SelectItem value="b2b">Pro firmy</SelectItem>
               </SelectContent>
             </Select>
 
