@@ -1,14 +1,20 @@
 import { Layout } from '@/components/layout/Layout';
 import { SearchHero } from '@/components/home/SearchHero';
-import { CategoryGrid } from '@/components/home/CategoryGrid';
+import { PopularProjects } from '@/components/home/PopularProjects';
+import { HowItWorks } from '@/components/home/HowItWorks';
+import { TrustBadges } from '@/components/home/TrustBadges';
+import { Testimonials } from '@/components/home/Testimonials';
 import { FeaturedWorkers } from '@/components/home/FeaturedWorkers';
 
 const Index = () => {
   return (
     <Layout>
       <SearchHero />
-      <CategoryGrid />
+      <PopularProjects />
+      <TrustBadges />
       <FeaturedWorkers />
+      <HowItWorks />
+      <Testimonials />
     </Layout>
   );
 };
