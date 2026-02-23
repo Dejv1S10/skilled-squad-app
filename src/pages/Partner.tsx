@@ -16,10 +16,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { Star, Clock, Package, CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { Star, Clock, Package, CheckCircle, XCircle, Loader2, MessageSquare } from 'lucide-react';
 import { format } from 'date-fns';
 import { cs } from 'date-fns/locale';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 interface Order {
   id: string;
@@ -71,6 +71,7 @@ export default function Dashboard() {
   const { user } = useAuth();
   const { isWorker, loading: roleLoading } = useUserRole();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [worker, setWorker] = useState<WorkerData | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -410,37 +411,60 @@ export default function Dashboard() {
                           )}
                         </div>
 
-                        {order.status === 'pending' && (
-                          <div className="mt-4 flex gap-2">
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {/* Chat – dostupný vždy */}
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => navigate(`/chat/${order.id}`)}
+                            className="flex items-center gap-1"
+                          >
+                            <MessageSquare className="h-4 w-4" />
+                            Chat
+                          </Button>
+
+                          {/* Přijmout / Odmítnout – pouze pro čekající */}
+                          {order.status === 'pending' && (
+                            <>
+                              <Button
+                                size="sm"
+                                onClick={() => handleOrderAction(order.id, 'accept')}
+                                className="flex items-center gap-1"
+                              >
+                                <CheckCircle className="h-4 w-4" />
+                                Přijmout
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleOrderAction(order.id, 'reject')}
+                                className="flex items-center gap-1"
+                              >
+                                <XCircle className="h-4 w-4" />
+                                Odmítnout
+                              </Button>
+                            </>
+                          )}
+
+                          {/* Dokončit – až po zaplacení zákazníkem (in_progress) */}
+                          {order.status === 'in_progress' && (
                             <Button
                               size="sm"
-                              onClick={() => handleOrderAction(order.id, 'accept')}
+                              onClick={() => handleCompleteOrder(order.id)}
                               className="flex items-center gap-1"
                             >
                               <CheckCircle className="h-4 w-4" />
-                              Přijmout
+                              Označit jako dokončené
                             </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleOrderAction(order.id, 'reject')}
-                              className="flex items-center gap-1"
-                            >
-                              <XCircle className="h-4 w-4" />
-                              Odmítnout
-                            </Button>
-                          </div>
-                        )}
+                          )}
 
-                        {order.status === 'accepted' && (
-                          <Button
-                            size="sm"
-                            className="mt-4"
-                            onClick={() => handleCompleteOrder(order.id)}
-                          >
-                            Označit jako dokončené
-                          </Button>
-                        )}
+                          {/* Čeká na platbu zákazníka */}
+                          {order.status === 'accepted' && (
+                            <span className="flex items-center text-sm text-muted-foreground">
+                              Čeká na platbu zákazníka…
+                            </span>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
