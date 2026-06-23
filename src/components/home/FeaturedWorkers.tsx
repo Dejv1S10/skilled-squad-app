@@ -113,10 +113,6 @@ export function FeaturedWorkers() {
     );
   }
 
-  if (workers.length === 0) {
-    return null;
-  }
-
   return (
     <section className="bg-muted/30 py-16 md:py-24">
       <div className="container">
@@ -130,6 +126,49 @@ export function FeaturedWorkers() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {/* Venca – zahradník */}
+          <Card
+            onClick={() => navigate('/worker/venca')}
+            className="group cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg"
+          >
+            <CardContent className="p-6">
+              <div className="mb-4 flex items-start gap-4">
+                <div className="relative">
+                  <img
+                    src="/venca.JPG"
+                    alt="Venca"
+                    className="h-16 w-16 rounded-full object-cover bg-muted"
+                  />
+                  <CircleCheck className="absolute -bottom-1 -right-1 h-5 w-5 text-green-500" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground group-hover:text-primary">Venca</h3>
+                  <div className="flex items-center gap-1 text-sm">
+                    {[1, 2].map((i) => (
+                      <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    ))}
+                    <Star className="h-4 w-4 fill-yellow-200 text-yellow-400" />
+                    {[4, 5].map((i) => (
+                      <Star key={i} className="h-4 w-4 text-muted-foreground" />
+                    ))}
+                    <span className="ml-1 font-medium">2,5</span>
+                  </div>
+                </div>
+              </div>
+              <p className="mb-4 text-sm text-muted-foreground line-clamp-2">
+                Schopný zahradník — zvládne vše. Komunikace může být náročnější, ale práce odvedena vždy na jedničku.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Badge variant="secondary" className="text-xs">Zahrada & exteriér</Badge>
+                <Badge variant="secondary" className="text-xs">Údržba zahrady</Badge>
+              </div>
+              <div className="mt-4 border-t pt-4">
+                <span className="text-lg font-bold text-primary">400 Kč</span>
+                <span className="text-sm text-muted-foreground"> / hodina</span>
+              </div>
+            </CardContent>
+          </Card>
+
           {workers.map((worker) => (
             <Card
               key={worker.id}

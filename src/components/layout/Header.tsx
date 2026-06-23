@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserRole } from '@/hooks/useUserRole';
-import { Home, User, LogOut, Briefcase, ClipboardList, MapPin, ChevronDown } from 'lucide-react';
+import { Home, User, LogOut, Briefcase, ClipboardList, MapPin, ChevronDown, Sun, Moon, Bot } from 'lucide-react';
+import { useTheme } from '@/hooks/useTheme';
+import { StandaChat } from '@/components/StandaChat';
 import {
   Popover,
   PopoverContent,
@@ -17,6 +19,8 @@ export function Header() {
   const navigate = useNavigate();
   const [location, setLocation] = useState('Praha');
   const [isLocating, setIsLocating] = useState(false);
+  const { isDark, toggle } = useTheme();
+  const [standaOpen, setStandaOpen] = useState(false);
 
   const handleSignOut = async () => {
     await signOut();
@@ -50,6 +54,7 @@ export function Header() {
   };
 
   return (
+    <>
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-4">
@@ -57,7 +62,7 @@ export function Header() {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <Home className="h-5 w-5" />
             </div>
-            <span className="text-xl font-bold text-foreground">HomeHelp</span>
+            <span className="text-xl font-bold text-foreground">Sikula.com</span>
           </Link>
 
           <Popover>
@@ -94,6 +99,16 @@ export function Header() {
         </div>
 
         <nav className="flex items-center gap-4">
+          <button
+            onClick={() => setStandaOpen(o => !o)}
+            className="flex items-center gap-2 text-foreground transition-colors hover:text-primary"
+          >
+            <Bot className="h-4 w-4" />
+            <span className="text-sm font-medium">AI asistent Standa</span>
+          </button>
+          <Button variant="ghost" size="icon" onClick={toggle} aria-label="Přepnout tmavý režim">
+            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </Button>
           {user ? (
             <>
               {isWorker ? (
@@ -128,12 +143,14 @@ export function Header() {
                 <Link to="/login">Přihlásit</Link>
               </Button>
               <Button asChild>
-                <Link to="/register">Registrace</Link>
+                <Link to="/register">Stát se Šikulou</Link>
               </Button>
             </>
           )}
         </nav>
       </div>
     </header>
+    <StandaChat open={standaOpen} onClose={() => setStandaOpen(false)} />
+    </>
   );
 }

@@ -43,13 +43,13 @@ export function SearchHero() {
   };
 
   return (
-    <section className="bg-background pb-8 pt-12 md:pb-12 md:pt-20">
+    <section className="bg-[#0e1a0e] pb-8 pt-12 md:pb-12 md:pt-20">
       <div className="container">
         <div className="mx-auto max-w-3xl text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground md:text-5xl lg:text-6xl">
-            Objednejte spolehlivou
+          <h1 className="mb-4 text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
+            Objednejte si
             <br />
-            <span className="text-primary">pomoc do domácnosti</span>
+            <span className="mt-2 block text-primary">našeho Šikulu</span>
           </h1>
 
           <form onSubmit={handleSearch} className="mx-auto mt-8 flex max-w-xl gap-2">
@@ -60,7 +60,7 @@ export function SearchHero() {
                 placeholder="S čím potřebujete pomoci?"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="h-14 rounded-full border-2 border-border bg-background pl-12 text-base shadow-sm transition-colors focus-visible:border-primary md:text-lg"
+                className="h-14 rounded-full border-2 border-white/10 bg-white/10 pl-12 text-base text-white placeholder:text-white/50 shadow-sm transition-colors focus-visible:border-primary md:text-lg"
               />
             </div>
             <Button type="submit" size="lg" className="h-14 rounded-full px-6 shadow-sm">
@@ -79,15 +79,14 @@ export function SearchHero() {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`flex flex-shrink-0 flex-col items-center gap-1.5 rounded-lg px-4 py-3 text-xs font-medium transition-all md:text-sm ${
+                  className={`flex flex-shrink-0 flex-col items-center gap-1.5 rounded-xl px-4 py-3 text-xs font-medium transition-all md:text-sm ${
                     isActive
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                      ? 'bg-primary text-white'
+                      : 'text-white/60 hover:bg-white/10 hover:text-white'
                   }`}
                 >
-                  <Icon className={`h-6 w-6 ${isActive ? 'text-primary' : ''}`} />
+                  <Icon className="h-6 w-6" />
                   <span className="whitespace-nowrap">{cat.name}</span>
-                  {isActive && <div className="h-0.5 w-full rounded-full bg-primary" />}
                 </button>
               );
             })}
@@ -100,7 +99,7 @@ export function SearchHero() {
                 key={sub}
                 variant="outline"
                 size="sm"
-                className="rounded-full"
+                className="rounded-full border-white/20 bg-white/5 text-white hover:bg-white/15 hover:text-white"
                 onClick={() => navigate(`/search?q=${encodeURIComponent(sub)}&category=${activeCategory}`)}
               >
                 {sub}
