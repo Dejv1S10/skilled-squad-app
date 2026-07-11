@@ -212,9 +212,12 @@ export default function Orders() {
             {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-32" />)}
           </div>
         ) : orders.length === 0 ? (
-          <Card className="p-12 text-center">
-            <p className="mb-4 text-lg text-muted-foreground">Zatím nemáte žádné objednávky</p>
-            <Button onClick={() => navigate('/search')}>Najít pracovníka</Button>
+          <Card className="p-16 text-center">
+            <h2 className="text-2xl font-bold md:text-3xl">Máte něco, s čím potřebujete pomoct?</h2>
+            <p className="mt-2 text-lg text-muted-foreground">Objednejte si našeho Šikulu</p>
+            <Button size="lg" className="mt-6 rounded-full" onClick={() => navigate('/')}>
+              Podívejte se na možnosti
+            </Button>
           </Card>
         ) : (
           <div className="space-y-4">

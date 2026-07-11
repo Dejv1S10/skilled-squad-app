@@ -53,7 +53,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (error) throw error;
       if (!data.user) throw new Error('No user returned');
 
-      // Create profile
+      // Kód "23505" = záznam už existuje. To je v pořádku — profil zakládá
+      // automaticky i databáze, takže druhý pokus jen tiše přeskočíme.
+      const ALREADY_EXISTS = '23505';
+
+      // Založení profilu (pokud ho už nezaložila databáze sama)
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({
@@ -62,9 +66,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: email,
         });
 
-      if (profileError) throw profileError;
+      if (profileError && profileError.code !== ALREADY_EXISTS) throw profileError;
 
-      // Create user role
+      // Uložení role (zákazník / Šikula)
       const { error: roleError } = await supabase
         .from('user_roles')
         .insert({
@@ -72,9 +76,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           role: isWorker ? 'worker' : 'customer',
         });
 
-      if (roleError) throw roleError;
+      if (roleError && roleError.code !== ALREADY_EXISTS) throw roleError;
 
-      // If worker, create worker profile
+      // Šikula dostane navíc pracovní profil
       if (isWorker) {
         const { error: workerError } = await supabase
           .from('workers')
@@ -85,7 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             categories: [],
           });
 
-        if (workerError) throw workerError;
+        if (workerError && workerError.code !== ALREADY_EXISTS) throw workerError;
       }
 
       return { error: null };

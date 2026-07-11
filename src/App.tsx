@@ -7,6 +7,10 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import BecomeWorker from "./pages/BecomeWorker";
+import StehovaniOrder from "./pages/StehovaniOrder";
+import StehovaniFixni from "./pages/StehovaniFixni";
+import TaskOrder from "./pages/TaskOrder";
 import Search from "./pages/Search";
 import WorkerDetail from "./pages/WorkerDetail";
 import Partner from "./pages/Partner";
@@ -28,6 +32,10 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/stat-se-sikulou" element={<BecomeWorker />} />
+            <Route path="/stehovani" element={<StehovaniOrder />} />
+            <Route path="/stehovani-fixni" element={<StehovaniFixni />} />
+            <Route path="/sluzba/:catId/:subId" element={<TaskOrder />} />
             <Route path="/search" element={<Search />} />
             <Route path="/worker/:id" element={<WorkerDetail />} />
             <Route path="/partner" element={<Partner />} />

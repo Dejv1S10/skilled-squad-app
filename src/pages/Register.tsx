@@ -1,14 +1,13 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Layout } from '@/components/layout/Layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Briefcase, User } from 'lucide-react';
+import { Loader2, Briefcase } from 'lucide-react';
 import { z } from 'zod';
 
 const registerSchema = z.object({
@@ -21,11 +20,13 @@ export default function Register() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isWorker, setIsWorker] = useState(false);
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  // Přišel-li zákazník z „Stát se Šikulou", zaregistrujeme ho rovnou jako pracovníka.
+  const isWorker = searchParams.get('role') === 'worker';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,30 +107,12 @@ export default function Register() {
                 />
               </div>
 
-              <div className="rounded-lg border p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    {isWorker ? (
-                      <Briefcase className="h-5 w-5 text-primary" />
-                    ) : (
-                      <User className="h-5 w-5 text-muted-foreground" />
-                    )}
-                    <div>
-                      <Label htmlFor="worker-toggle" className="cursor-pointer">
-                        Chci nabízet služby
-                      </Label>
-                      <p className="text-sm text-muted-foreground">
-                        {isWorker ? 'Registrace jako pracovník' : 'Registrace jako zákazník'}
-                      </p>
-                    </div>
-                  </div>
-                  <Switch
-                    id="worker-toggle"
-                    checked={isWorker}
-                    onCheckedChange={setIsWorker}
-                  />
+              {isWorker && (
+                <div className="flex items-center gap-3 rounded-lg border p-4">
+                  <Briefcase className="h-5 w-5 text-primary" />
+                  <p className="text-sm text-muted-foreground">Registrujete se jako Šikula</p>
                 </div>
-              </div>
+              )}
 
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
